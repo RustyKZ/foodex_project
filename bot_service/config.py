@@ -37,7 +37,6 @@ class Settings(BaseSettings):
     TELEGRAM_BOT_TOKEN: str
     TELEGRAM_UNNAMED_USER_NICKNAME: str = "Unnamed User"
     TELEGRAM_UNKNOWN_USER_NICKNAME: str = "Unknown User"
-    TELEGRAM_BOT_ADMIN_IDS_STR: str = "899014896"
     TELEGRAM_BOT_USERNAME: str
 
     # Paths
