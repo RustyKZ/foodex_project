@@ -1,8 +1,8 @@
-FoodEx project
+<b>FoodEx project</b>
 
 Backend services:
 
-admin_service - Django
-api_service - FastAPI
-bot_service - Pyhton
-planner_service - Celery
+admin_service - Django <br>
+api_service - FastAPI <br>
+bot_service - Pyhton <br>
+planner_service - Celery <br>
