@@ -1,0 +1,44 @@
+# env files
+*.env
+.env.*
+!.env.example
+
+env/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# logs
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# docker volumes
+postgres-data/
+redis-data/
+minio-data/
+
+# frontend (separate deployment)
+foodex_front/
+foodex_tma/
+foodex_miniapp/
+
+# Development backups
+dev_backups/
+
+# Database data
+data_dev/
+
+# MinIO storage
+minio_storage/
+
+# Redis
+redis_conf/
+redis_data/
+
+
+

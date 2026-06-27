@@ -1,0 +1,13 @@
+SYSTEM_ACTION_STATUS_PROCESSING = "processing"
+SYSTEM_ACTION_STATUS_SUCCESS = "success"
+SYSTEM_ACTION_STATUS_SUCCESS = "success"
+SYSTEM_ACTION_STATUS_ERROR = "error"
+SYSTEM_ACTION_STATUS_UNDEFINED = "undefined"
+SYSTEM_ACTION_STATUS_SKIPPED = "skipped"
+
+EVENT_REDIS_ORDERS_UPDATING_START = "redis_orders_updating_start"
+EVENT_REDIS_ORDERS_UPDATING_DAILY = "redis_orders_updating_daily"
+
+EVENT_DAILY_AD_CAMPAIGNS_FEE_CHARGE = "daily_ad_campaigns_fee_charge"
+
+EVENT_CHANGE_BUSINESS_TARIFF_PLAN_TO_FREE = "change_business_tariff_plan_to_free"

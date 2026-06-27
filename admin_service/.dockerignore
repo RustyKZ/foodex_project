@@ -1,0 +1,46 @@
+# --- virtual environments ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- Python cache ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# --- build artifacts ---
+build/
+dist/
+*.egg-info/
+
+# --- logs ---
+*.log
+
+# --- env files ---
+.env
+.env.*
+
+# --- IDE / editors ---
+.idea/
+.vscode/
+*.swp
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+
+# --- git ---
+.git/
+.gitignore
+
+# --- pytest / coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- mypy / ruff ---
+.mypy_cache/
+.ruff_cache/

@@ -1,0 +1,6 @@
+SUPPLIER = 1
+CUSTOMER = 2
+INDIVIDUAL = 3
+
+SUPPLIER_ROLE = "supplier"
+CUSTOMER_ROLE = "customer"
