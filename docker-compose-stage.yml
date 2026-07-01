@@ -1,0 +1,155 @@
+services:
+  # =========================
+  # INFRASTRUCTURE
+  # =========================
+
+  postgres:
+    image: postgres:16
+    container_name: foodex_postgres_stage
+    restart: always
+    env_file:
+      - ./envs/stage_postgres.env
+    volumes:
+      - ./stage_data_db:/var/lib/postgresql/data
+    ports:
+      - "5430:5432"
+    networks:
+      - foodex-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: foodex_rabbitmq_stage
+    restart: always
+    env_file:
+      - ./envs/stage_rabbitmq.env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - foodex-net
+
+  minio:
+    image: minio/minio
+    container_name: foodex_minio_stage
+    restart: always
+    env_file:
+      - ./envs/stage_minio.env
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./stage_minio_storage:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - foodex-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: foodex_redis_stage
+    restart: always
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    volumes:
+      - ./redis_conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./stage_redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - foodex-net
+
+
+  # =========================
+  # APPLICATION SERVICES
+  # =========================
+
+  admin_service:
+    build:
+      context: ./admin_service
+    container_name: foodex_admin_stage
+    restart: always
+    env_file:
+      - ./envs/stage_shared.env
+      - ./envs/stage_admin_service.env
+    depends_on:
+      - postgres
+    ports:
+      - "8001:8000"
+    command: >
+      gunicorn foodex_admin.wsgi:application
+      --bind 0.0.0.0:8000
+    networks:
+      - foodex-net
+
+  api_service:
+    build:
+      context: ./api_service
+    container_name: foodex_api_service_stage
+    restart: always
+    env_file:
+      - ./envs/stage_shared.env
+      - ./envs/stage_api_service.env
+    depends_on:
+      - postgres
+      - rabbitmq
+      - redis
+    ports:
+      - "8888:8888"
+    networks:
+      - foodex-net
+    volumes:
+      - ./api_service:/app  # чтобы код обновлялся без пересборки
+
+  bot_service:
+    build:
+      context: ./bot_service
+    container_name: foodex_bot_stage
+    restart: always
+    env_file:
+      - ./envs/stage_shared.env
+      - ./envs/stage_bot_service.env
+    depends_on:
+      - api_service
+      - rabbitmq
+    command: python main.py
+    networks:
+      - foodex-net
+
+  planner_worker:
+    build:
+      context: ./planner_service
+    container_name: foodex_celery_worker_stage
+    restart: always
+    env_file:
+      - ./envs/stage_shared.env
+      - ./envs/stage_planner_service.env
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    command: celery -A app.celery_app:celery_app worker -l info
+    networks:
+      - foodex-net
+
+  planner_beat:
+    build:
+      context: ./planner_service
+    container_name: foodex_celery_beat_stage
+    restart: always
+    env_file:
+      - ./envs/stage_shared.env
+      - ./envs/stage_planner_service.env
+    depends_on:
+      - redis
+      - rabbitmq
+      - postgres
+    command: celery -A app.celery_beat beat -l info
+    networks:
+      - foodex-net
+
+
+# =========================
+# NETWORK
+# =========================
+
+networks:
+  foodex-net:
+    driver: bridge

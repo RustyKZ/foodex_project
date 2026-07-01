@@ -17,11 +17,12 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # !!! Comment this block when run in the docker container !!!
-ENV_FILE = BASE_DIR.parent / 'envs' / 'admin_service_dev.env'
-if ENV_FILE.exists():
-    load_dotenv(ENV_FILE)
+RUNNING_IN_DOCKER = bool(os.getenv("RUNNING_IN_DOCKER"))
+if not RUNNING_IN_DOCKER:
+    ENV_FILE = BASE_DIR.parent / 'envs' / 'local_admin_service.env'
+    if ENV_FILE.exists():
+        load_dotenv(ENV_FILE)
 # !!! Comment this block when run in the docker container !!!
 
 # Quick-start development settings - unsuitable for production
@@ -121,7 +122,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = [    
     "http://localhost:8000/",
     "https://localhost:8000/",
-    "https://foodex-admin-dev.rustykz.top",
-    "https://foodex-admin.rustykz.top",
+    "https://manage.foodexapp.top",    
 ]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

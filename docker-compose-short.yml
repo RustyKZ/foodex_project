@@ -1,0 +1,66 @@
+services:
+  # =========================
+  # INFRASTRUCTURE
+  # =========================
+
+  postgres:
+    image: postgres:16
+    container_name: foodex_postgres_local
+    restart: always
+    env_file:
+      - ./envs/local_postgres.env
+    volumes:
+      - ./data_dev:/var/lib/postgresql/data
+    ports:
+      - "5430:5432"
+    networks:
+      - foodex-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: foodex_rabbitmq_local
+    restart: always
+    env_file:
+      - ./envs/local_rabbitmq.env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - foodex-net
+
+  minio:
+    image: minio/minio
+    container_name: foodex_minio_local
+    restart: always
+    env_file:
+      - ./envs/local_minio.env
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_storage:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - foodex-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: foodex_redis_local
+    restart: always
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    volumes:
+      - ./redis_conf/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - foodex-net
+
+
+# =========================
+# NETWORK
+# =========================
+
+networks:
+  foodex-net:
+    driver: bridge
