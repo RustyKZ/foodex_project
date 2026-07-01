@@ -42,5 +42,8 @@ minio_storage/
 redis_conf/
 redis_data/
 
+# Help run files
+run.txt
+
 
 
