@@ -10,7 +10,7 @@ services:
     env_file:
       - ./envs/prod_postgres.env
     volumes:
-      - ./bd_data_prod:/var/lib/postgresql/data
+      - ./db_data_prod:/var/lib/postgresql/data
     ports:
       - "5430:5432"
     networks:
