@@ -80,7 +80,6 @@ class Settings(BaseSettings):
     
 
     # Custom    
-    API_SERVICE_DEV_MODE: bool = False
     DEFAULT_LANGUAGE: str = "en"
 
     LOGOUT_TIMEOUT: int = 900

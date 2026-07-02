@@ -119,10 +119,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = [    
-    "http://localhost:8000/",
-    "https://localhost:8000/",
-    "https://manage.foodexapp.top",    
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("ADMIN_SERVICE_CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

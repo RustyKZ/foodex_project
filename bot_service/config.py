@@ -54,7 +54,6 @@ class Settings(BaseSettings):
     BOT_SERVICE_RABBIT_DIRECT_QUEUE_NAME: str
     
     # Custom    
-    BOT_SERVICE_DEV_MODE: bool = False
     DEFAULT_LANGUAGE: str = "en"
 
     LOGOUT_TIMEOUT: int = 900
